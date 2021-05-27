@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+
 @Mapper
 @Repository
 public interface SudokuRepository {
-    List<Map<String, Object>> getSudoku();
+    int getSudoku();
 }

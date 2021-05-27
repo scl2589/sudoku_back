@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="sudoku.sudoku_back.mapper.SudokuRepository">
-    <select id="getSudoku" resultType="java.util.HashMap">
-        SELECT * FROM sudoku;
+<mapper namespace="sudoku.sudoku_back.mapper.SudokuMapper">
+    <select id="getSudoku" resultType="INT">
+        SELECT spent_time FROM sudoku;
     </select>
 </mapper>
