@@ -5,22 +5,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import sudoku.sudoku_back.model.SudokuModel;
 import sudoku.sudoku_back.service.SudokuService;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class SudokuController {
 
     @Autowired
     SudokuService sudokuService;
 
     @GetMapping("/sudoku")
-    public String list(Model model) {
+    public List<SudokuModel> list(Model model) {
         List<SudokuModel> sudoku = sudokuService.printSudoku();
-        model.addAttribute("sudokuList", sudoku);
-        return "list";
+//        model.addAttribute("sudokuList", sudoku);
+        return sudoku;
     }
 
 }
