@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sudoku.sudoku_back.dao.SudokuDao">
-    <select id="getSudoku" resultType="sudoku.sudoku_back.model.SudokuModel">
+    <select id="getSudokuTable" resultType="sudoku.sudoku_back.model.SudokuModel">
         select * from sudoku
     </select>
 </mapper>

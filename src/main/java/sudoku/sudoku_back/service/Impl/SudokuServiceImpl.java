@@ -15,9 +15,12 @@ public class SudokuServiceImpl implements SudokuService {
     private SudokuDao dao;
 
     @Override
-    public List<SudokuModel> printSudoku() {
-        List<SudokuModel> sudoku = dao.getSudoku();
-        System.out.println(sudoku);
+    public List<SudokuModel> getSudokuTable() {
+        List<SudokuModel> sudoku = dao.getSudokuTable();
+        for (SudokuModel e : sudoku) {
+
+        }
+//        System.out.println(sudoku);
 
         return sudoku;
     }

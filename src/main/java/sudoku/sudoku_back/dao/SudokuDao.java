@@ -5,5 +5,5 @@ import sudoku.sudoku_back.model.SudokuModel;
 import java.util.List;
 
 public interface SudokuDao {
-    List<SudokuModel> getSudoku();
+    List<SudokuModel> getSudokuTable();
 }
