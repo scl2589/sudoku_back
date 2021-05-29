@@ -9,4 +9,6 @@ public interface SudokuService {
     List<SudokuModel> getSudokuTable();
 
     ArrayList<ArrayList<Integer>> generateSudokuBoard();
+
+    ArrayList<ArrayList<Integer>> removeSudokuElement();
 }

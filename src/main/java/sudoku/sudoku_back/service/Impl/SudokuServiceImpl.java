@@ -12,7 +12,7 @@ import java.util.*;
 public class SudokuServiceImpl implements SudokuService {
     private ArrayList<Integer> removedArr;
     private ArrayList<Integer> allElements;
-    private ArrayList<ArrayList<Integer>> arr = new ArrayList<>(9);
+    private ArrayList<ArrayList<Integer>> arr;
 
     HashSet<Integer>[] rows = new HashSet[9];
     HashSet<Integer>[] cols = new HashSet[9];
@@ -32,6 +32,7 @@ public class SudokuServiceImpl implements SudokuService {
         // 초기화한다.
         removedArr = new ArrayList<>();
         allElements = new ArrayList<>();
+        arr = new ArrayList<>();
 
         for (int i = 0; i < 81; i++) {
             allElements.add(i);
@@ -41,8 +42,8 @@ public class SudokuServiceImpl implements SudokuService {
             rows[i] = new HashSet<>();
             cols[i] = new HashSet<>();
             box[i] = new HashSet<>();
-//            ArrayList<Integer> temp = new ArrayList<>(9);
-            arr.add(new ArrayList<Integer>(9));
+            ArrayList<Integer> temp = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0));
+            arr.add(temp);
         }
 
         generateTopLeftBox();
@@ -52,15 +53,8 @@ public class SudokuServiceImpl implements SudokuService {
         generateFirstCol();
         backtracking();
         if (backtracking()) {
-//            for (ArrayList<Integer> e: arr) {
-//                System.out.println(e);
-//            }
             return arr;
         }
-        for (ArrayList<Integer> e: arr) {
-            System.out.println(e);
-        }
-
         return arr;
     }
 
@@ -70,7 +64,7 @@ public class SudokuServiceImpl implements SudokuService {
         Collections.shuffle(numbers);
         for (int k = 0; k < 9; k++) {
             int i = k / 3, j = k % 3;
-            arr.get(i).add(numbers.get(k));
+            arr.get(i).set(j, numbers.get(k));
 
             // set 에 추가한다.
             rows[i].add(numbers.get(k));
@@ -88,7 +82,7 @@ public class SudokuServiceImpl implements SudokuService {
         Collections.shuffle(firstRowAvailable);
 
         for (int j = 3; j < 9; j++) {
-            arr.get(0).add(firstRowAvailable.get(j-3));
+            arr.get(0).set(j, firstRowAvailable.get(j-3));
             // HashSet에 저장해준다.
             rows[0].add(firstRowAvailable.get(j-3));
             cols[j].add(firstRowAvailable.get(j-3));
@@ -126,7 +120,7 @@ public class SudokuServiceImpl implements SudokuService {
         Collections.shuffle(middleSecondRowValues);
 
         for (int j = 3; j < 6; j++) {
-            arr.get(1).add(middleSecondRowValues.get(j - 3));
+            arr.get(1).set(j, middleSecondRowValues.get(j - 3));
             // HashSet에 저장해준다.
             rows[1].add(middleSecondRowValues.get(j-3));
             cols[j].add(middleSecondRowValues.get(j-3));
@@ -144,7 +138,7 @@ public class SudokuServiceImpl implements SudokuService {
         // Text 추가하기
         for (int j = 3; j < 6; j++) {
             // text 추가한다.
-            arr.get(2).add(middleThirdRowAvailable.get(j - 3));
+            arr.get(2).set(j, middleThirdRowAvailable.get(j - 3));
             // HashSet에 저장해준다.
             rows[2].add(middleThirdRowAvailable.get(j-3));
             cols[j].add(middleThirdRowAvailable.get(j-3));
@@ -171,8 +165,8 @@ public class SudokuServiceImpl implements SudokuService {
         // Text 추가하기
         for (int j = 6; j < 9; j++) {
             // text 추가한다.
-            arr.get(1).add(rightSecondRowAvailable.get(j - 6));
-            arr.get(2).add(rightThirdRowAvailable.get(j - 6));
+            arr.get(1).set(j, rightSecondRowAvailable.get(j - 6));
+            arr.get(2).set(j, rightThirdRowAvailable.get(j - 6));
             // HashSet에 저장해준다.
             rows[1].add(rightSecondRowAvailable.get(j-6));
             rows[2].add(rightThirdRowAvailable.get(j-6));
@@ -196,7 +190,7 @@ public class SudokuServiceImpl implements SudokuService {
         Collections.shuffle(firstColAvailable);
 
         for (int i = 3; i < 9; i++) {
-            arr.get(i).add(firstColAvailable.get(i-3));
+            arr.get(i).set(0, firstColAvailable.get(i-3));
 
             rows[i].add(firstColAvailable.get(i-3));
             cols[0].add(firstColAvailable.get(i-3));
@@ -208,30 +202,28 @@ public class SudokuServiceImpl implements SudokuService {
     private boolean backtracking() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.println(arr.get(i).get(j));
-                if (!(arr.get(i).get(j) == null)) {
-                    // 비어 있는 경우라면 해당 위치에 어떤 값이 들어갈 수 있는지 확인
-                    ArrayList<Integer> available = validValues(i, j);
-                    // 각각의 value를 넣고 가능한지 확인한다.
-                    for (Integer k : available) {
-                        arr.get(i).add(k);
-                        rows[i].add(k);
-                        cols[j].add(k);
-                        int ij = (i / 3) * 3 + j / 3;
-                        box[ij].add(k);
+                if (arr.get(i).get(j) != 0) continue;
+                // 비어 있는 경우라면 해당 위치에 어떤 값이 들어갈 수 있는지 확인
+                ArrayList<Integer> available = validValues(i, j);
+                // 각각의 value를 넣고 가능한지 확인한다.
+                for (Integer k : available) {
+                    arr.get(i).set(j, k);
+                    rows[i].add(k);
+                    cols[j].add(k);
+                    int ij = (i / 3) * 3 + j / 3;
+                    box[ij].add(k);
 
-                        if (backtracking()) {
-                            return true;
-                        }
-                        else {
-                            arr.get(i).set(j, null);
-                            rows[i].remove(k);
-                            cols[j].remove(k);
-                            box[ij].remove(k);
-                        }
+                    if (backtracking()) {
+                        return true;
                     }
-                    return false;
+                    else {
+                        arr.get(i).set(j, 0);
+                        rows[i].remove(k);
+                        cols[j].remove(k);
+                        box[ij].remove(k);
+                    }
                 }
+                return false;
             }
         }
         return true;
@@ -262,7 +254,6 @@ public class SudokuServiceImpl implements SudokuService {
     }
 
 
-
     private List<Integer> getNumbers(ArrayList<Integer> list, int totalItems ) {
         Random rand = new Random();
         List<Integer> returnList = new ArrayList<>();
@@ -273,6 +264,39 @@ public class SudokuServiceImpl implements SudokuService {
         }
         return returnList;
     }
+
+    public ArrayList<ArrayList<Integer>> removeSudokuElement() {
+        removeElement();
+        return arr;
+    }
+
+    public void removeElement() {
+        // 삭제할 element를 랜덤으로 구하고, removedArr 리스트에 추가한다.
+        int removeNum = getNumbers(allElements, 1).get(0);
+        removedArr.add(removeNum);
+
+        // 없앤 숫자를 allElements 에서 삭제한다.
+        allElements.remove(new Integer(removeNum));
+
+        // 없애야 할 숫자를 board에서 삭제한다.
+        for (Integer e: removedArr) {
+            int i = e / 9; int j = e % 9;
+            int value = arr.get(i).get(j);
+            rows[i].remove(value);
+            cols[j].remove(value);
+            int ij = (i / 3) * 3 + j / 3;
+            box[ij].remove(value);
+            arr.get(i).set(j, 0);
+        }
+
+        if (removedArr.size()<= 10) {
+            if (backtracking()) {
+                removeElement();
+            }
+        }
+    }
+
+
 
 
 }
