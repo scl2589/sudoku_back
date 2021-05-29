@@ -24,8 +24,14 @@ public class SudokuController {
     }
 
     @GetMapping("/generate")
-    public ArrayList<ArrayList<Integer>> list() {
+    public ArrayList<ArrayList<Integer>> generateSudokuBoard() {
         ArrayList<ArrayList<Integer>> sudoku = sudokuService.generateSudokuBoard();
+        return sudoku;
+    }
+
+    @GetMapping("/generate/remove")
+    public ArrayList<ArrayList<Integer>> removeSudokuElement() {
+        ArrayList<ArrayList<Integer>> sudoku = sudokuService.removeSudokuElement();
         return sudoku;
     }
 
