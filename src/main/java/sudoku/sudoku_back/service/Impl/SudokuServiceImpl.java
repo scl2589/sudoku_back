@@ -1,5 +1,6 @@
 package sudoku.sudoku_back.service.Impl;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sudoku.sudoku_back.dao.SudokuDao;
@@ -293,7 +294,7 @@ public class SudokuServiceImpl implements SudokuService {
             arr.get(i).set(j, 0);
         }
 
-        if (removedArr.size()<= 10) {
+        if (removedArr.size()<= 2) {
             if (backtracking()) {
                 removeElement();
             }
@@ -325,5 +326,9 @@ public class SudokuServiceImpl implements SudokuService {
             }
         }
         return true;
+    }
+
+    public void addSudoku(JSONObject jsonObj){
+        dao.insertSudokuTable(jsonObj);
     }
 }

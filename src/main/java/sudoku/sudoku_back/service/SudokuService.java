@@ -1,5 +1,6 @@
 package sudoku.sudoku_back.service;
 
+import org.json.simple.JSONObject;
 import sudoku.sudoku_back.model.SudokuModel;
 
 import java.util.ArrayList;
@@ -13,4 +14,6 @@ public interface SudokuService {
     ArrayList<ArrayList<Integer>> removeSudokuElement();
 
     Boolean checkCorrect(String currentValue);
+
+    void addSudoku(JSONObject jsonObj);
 }

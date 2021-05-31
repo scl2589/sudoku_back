@@ -3,6 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="sudoku.sudoku_back.dao.SudokuDao">
+    <insert id="insertSudokuTable">
+        INSERT INTO SUDOKU(nickname, start_time, end_time, spent_time, answer, problem)
+        VALUES(#{nickname}, #{starttime}, #{endtime}, #{count}, #{answer}, #{question})
+    </insert>
     <select id="getSudokuTable" resultType="sudoku.sudoku_back.model.SudokuModel">
         select * from sudoku
     </select>
