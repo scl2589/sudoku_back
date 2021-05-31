@@ -18,6 +18,10 @@ public class SudokuServiceImpl implements SudokuService {
     HashSet<Integer>[] cols = new HashSet[9];
     HashSet<Integer>[] box = new HashSet[9];
 
+    HashSet<Integer>[] checkRows = new HashSet[9];
+    HashSet<Integer>[] checkCols = new HashSet[9];
+    HashSet<Integer>[] checkBox = new HashSet[9];
+
     @Autowired
     private SudokuDao dao;
 
@@ -296,7 +300,30 @@ public class SudokuServiceImpl implements SudokuService {
         }
     }
 
+    public Boolean checkCorrect(String userSudoku) {
+        for (int i = 0; i < 9; i++ ) {
+            checkRows[i] = new HashSet<>();
+            checkCols[i] = new HashSet<>();
+            checkBox[i] = new HashSet<>();
+        }
 
-
-
+        for (int k = 0; k < 81; k++) {
+            int i = k / 9;
+            int j = k % 9;
+            int ij = (i / 3) * 3 + j / 3;
+            Integer current = Integer.parseInt(String.valueOf(userSudoku.charAt(k)));
+            if (current == 0) {
+                return false;
+            } else {
+                if (checkRows[i].contains(current) || checkCols[j].contains(current) || checkBox[ij].contains(current)) {
+                    return false;
+                } else {
+                    checkRows[i].add(current);
+                    checkCols[j].add(current);
+                    checkBox[ij].add(current);
+                }
+            }
+        }
+        return true;
+    }
 }

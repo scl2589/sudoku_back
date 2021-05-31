@@ -11,4 +11,6 @@ public interface SudokuService {
     ArrayList<ArrayList<Integer>> generateSudokuBoard();
 
     ArrayList<ArrayList<Integer>> removeSudokuElement();
+
+    Boolean checkCorrect(String currentValue);
 }
