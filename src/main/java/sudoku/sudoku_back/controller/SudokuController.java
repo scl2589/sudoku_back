@@ -2,13 +2,13 @@ package sudoku.sudoku_back.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import sudoku.sudoku_back.model.SudokuModel;
@@ -16,7 +16,6 @@ import sudoku.sudoku_back.service.SudokuService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -26,6 +25,7 @@ public class SudokuController {
     @Autowired
     SudokuService sudokuService;
 
+    @Transactional(readOnly = true)
     @GetMapping("/initializetable")
     public List<SudokuModel> list (Model model) {
         List<SudokuModel> sudoku = sudokuService.getSudokuTable();
@@ -33,6 +33,7 @@ public class SudokuController {
         return sudoku;
     }
 
+    @Transactional(timeout=10)
     @GetMapping("/generate")
     public ArrayList<ArrayList<Integer>> generateSudokuBoard() {
         ArrayList<ArrayList<Integer>> sudoku = sudokuService.generateSudokuBoard();
@@ -58,17 +59,21 @@ public class SudokuController {
         return isCorrect;
     }
 
+    @Transactional
     @PostMapping("/sudoku")
     public void addSudoku(@RequestBody String sudokuData) throws JsonProcessingException, ParseException {
         ObjectMapper mapper = new ObjectMapper();
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(sudokuData);
         JSONObject jsonObj = (JSONObject) obj;
+        logger.info("스도쿠 기록을 추가합니다.");
         sudokuService.addSudoku(jsonObj);
     }
 
+    @Transactional
     @DeleteMapping("/sudoku/{id}")
     public void deleteSudoku(@PathVariable("id") int id) {
+        logger.info("스도쿠 게임 기록 " + id + "번이 삭제됩니다.");
         sudokuService.deleteSudoku(id);
     }
 }
