@@ -331,4 +331,8 @@ public class SudokuServiceImpl implements SudokuService {
     public void addSudoku(JSONObject jsonObj){
         dao.insertSudokuTable(jsonObj);
     }
+
+    public void deleteSudoku(int id) {
+        dao.deleteSudokuTable(id);
+    }
 }

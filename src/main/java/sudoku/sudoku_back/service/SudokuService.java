@@ -16,4 +16,6 @@ public interface SudokuService {
     Boolean checkCorrect(String currentValue);
 
     void addSudoku(JSONObject jsonObj);
+
+    void deleteSudoku(int id);
 }

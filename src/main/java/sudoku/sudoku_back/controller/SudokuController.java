@@ -55,4 +55,9 @@ public class SudokuController {
         JSONObject jsonObj = (JSONObject) obj;
         sudokuService.addSudoku(jsonObj);
     }
+
+    @DeleteMapping("/sudoku/{id}")
+    public void deleteSudoku(@PathVariable("id") int id) {
+        sudokuService.deleteSudoku(id);
+    }
 }

@@ -9,4 +9,6 @@ public interface SudokuDao {
     List<SudokuModel> getSudokuTable();
 
     void insertSudokuTable(JSONObject jsonObj);
+
+    void deleteSudokuTable(int id);
 }

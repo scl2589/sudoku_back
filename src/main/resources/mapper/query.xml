@@ -7,6 +7,9 @@
         INSERT INTO SUDOKU(nickname, start_time, end_time, spent_time, answer, problem)
         VALUES(#{nickname}, #{starttime}, #{endtime}, #{count}, #{answer}, #{question})
     </insert>
+    <delete id="deleteSudokuTable">
+        DELETE FROM sudoku WHERE id=#{id}
+    </delete>
     <select id="getSudokuTable" resultType="sudoku.sudoku_back.model.SudokuModel">
         select * from sudoku
     </select>
