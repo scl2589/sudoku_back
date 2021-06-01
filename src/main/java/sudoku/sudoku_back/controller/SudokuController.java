@@ -6,6 +6,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import java.util.Map;
 
 @RestController
 public class SudokuController {
+    static Logger logger = LoggerFactory.getLogger(SudokuController.class);
 
     @Autowired
     SudokuService sudokuService;
@@ -26,12 +29,14 @@ public class SudokuController {
     @GetMapping("/initializetable")
     public List<SudokuModel> list (Model model) {
         List<SudokuModel> sudoku = sudokuService.getSudokuTable();
+        logger.info("스도쿠 게임 기록들을 가져왔습니다.");
         return sudoku;
     }
 
     @GetMapping("/generate")
     public ArrayList<ArrayList<Integer>> generateSudokuBoard() {
         ArrayList<ArrayList<Integer>> sudoku = sudokuService.generateSudokuBoard();
+        logger.info("스도쿠 게임들을 만들었습니다.");
         return sudoku;
     }
 
@@ -44,6 +49,12 @@ public class SudokuController {
     @GetMapping("/correct/{userSudoku}")
     public Boolean checkCorrect(@PathVariable("userSudoku") String userSudoku) {
         Boolean isCorrect = sudokuService.checkCorrect(userSudoku);
+        if (isCorrect == true) {
+            logger.info("정답입니다.");
+        } else {
+            logger.info("오답입니다.");
+        }
+
         return isCorrect;
     }
 
