@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -65,7 +64,6 @@ public class SudokuController {
         return isCorrect;
     }
 
-    @Transactional
     @PostMapping("/sudoku")
     @ApiImplicitParams({
             @ApiImplicitParam(name="id", value="스도쿠 게임 기록 id", dataType="int", paramType="query", required=true)

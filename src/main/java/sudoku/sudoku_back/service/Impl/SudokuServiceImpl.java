@@ -23,7 +23,6 @@ public class SudokuServiceImpl implements SudokuService {
     HashSet<Integer>[] checkCols = new HashSet[9];
     HashSet<Integer>[] checkBox = new HashSet[9];
 
-    @Autowired
     private SudokuDao dao;
 
     @Override
