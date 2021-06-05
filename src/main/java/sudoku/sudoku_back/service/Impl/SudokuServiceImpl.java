@@ -2,6 +2,7 @@ package sudoku.sudoku_back.service.Impl;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import sudoku.sudoku_back.dao.SudokuDao;
 import sudoku.sudoku_back.model.SudokuModel;
@@ -23,6 +24,7 @@ public class SudokuServiceImpl implements SudokuService {
     HashSet<Integer>[] checkCols = new HashSet[9];
     HashSet<Integer>[] checkBox = new HashSet[9];
 
+    @Autowired
     private SudokuDao dao;
 
     @Override
